@@ -35,8 +35,19 @@ class Controller:
                 f'Directory {self.path_data_original} may not exist.')
         return self.path_data_original
 
+    def get_path_data_prepared(self) -> str:
+        """Returns the path to the directory holding the original data.
+
+        Returns:
+            str: Path to the directory holding the original data.
+        """
+        if not os.path.isdir(self.path_data_prepared):
+            warnings.warn(
+                f'Directory {self.path_data_prepared} may not exist.')
+        return self.path_data_prepared
+
     def get_path_iteration(self, iteration=None) -> str:
-        """Returns the path to a folder in which output results
+        """Returns the path to a new folder in which output results
         from the passed iteration can be saved. If no iteration is passed,
         the iteration passed in the constructor is used.
 
@@ -48,7 +59,7 @@ class Controller:
         if iteration is None:
             iteration = self.iteration
 
-        path = fr'./{self.path_outputs}/{iteration}'
+        path = fr'./{self.path_outputs}{iteration}'
         os.makedirs(path, exist_ok=True)
         return path
 
@@ -56,4 +67,3 @@ class Controller:
 if __name__ == '__main__':
     c = Controller('i01')
     c.create_folder_structure()
-    print(c.get_path_data_original())
