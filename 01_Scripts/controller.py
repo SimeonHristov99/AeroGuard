@@ -4,6 +4,8 @@ and the file structure."""
 import os
 import warnings
 
+FULL_PROJECT_PATH = r'/home/work/Dev/AeroGuard'
+
 
 class Controller:
     """Defines the logic of the `Controller` class
@@ -11,10 +13,10 @@ class Controller:
 
     def __init__(self, iteration: str) -> None:
         self.iteration = iteration
-        self.path_data_original = './00_Data/Original Data/'
-        self.path_data_prepared = './00_Data/Prepared Data/'
-        self.path_scripts = '01_Scripts/'
-        self.path_outputs = '02_Outputs/'
+        self.path_data_original = fr'{FULL_PROJECT_PATH}/00_Data/Original Data/'
+        self.path_data_prepared = fr'{FULL_PROJECT_PATH}/00_Data/Prepared Data/'
+        self.path_scripts = fr'{FULL_PROJECT_PATH}/01_Scripts/'
+        self.path_outputs = fr'{FULL_PROJECT_PATH}/02_Outputs/'
 
     def create_folder_structure(self) -> None:
         """Creates the file structure used in the project
@@ -59,7 +61,7 @@ class Controller:
         if iteration is None:
             iteration = self.iteration
 
-        path = fr'./{self.path_outputs}{iteration}'
+        path = fr'{self.path_outputs}{iteration}'
         os.makedirs(path, exist_ok=True)
         return path
 
@@ -67,3 +69,4 @@ class Controller:
 if __name__ == '__main__':
     c = Controller('i01')
     c.create_folder_structure()
+    print(c.get_path_data_original())
