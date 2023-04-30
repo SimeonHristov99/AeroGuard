@@ -24,6 +24,17 @@ class Controller:
         os.makedirs(self.path_scripts, exist_ok=True)
         os.makedirs(self.path_outputs, exist_ok=True)
 
+    def get_path_data_original(self) -> str:
+        """Returns the path to the directory holding the original data.
+
+        Returns:
+            str: Path to the directory holding the original data.
+        """
+        if not os.path.isdir(self.path_data_original):
+            warnings.warn(
+                f'Directory {self.path_data_original} may not exist.')
+        return self.path_data_original
+
     def get_path_iteration(self, iteration=None) -> str:
         """Returns the path to a folder in which output results
         from the passed iteration can be saved. If no iteration is passed,
@@ -45,3 +56,4 @@ class Controller:
 if __name__ == '__main__':
     c = Controller('i01')
     c.create_folder_structure()
+    print(c.get_path_data_original())
