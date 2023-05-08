@@ -2,9 +2,8 @@
 
 from typing import List
 
-from scipy import stats
-
 import pandas as pd
+from scipy import stats
 from sklearn.metrics import adjusted_mutual_info_score
 
 
