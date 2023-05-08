@@ -1,4 +1,4 @@
-"""This module holds implementation of class performing univariate analysis (data audit)."""
+"""This module holds implementation of the class performing univariate analysis (data audit)."""
 
 from typing import List, Optional
 
