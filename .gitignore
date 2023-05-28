@@ -161,3 +161,4 @@ cython_debug/
 .vscode
 
 *.xlsx
+01_Scripts/catboost_info
