@@ -11,8 +11,8 @@ def population_flow(
     df: pd.DataFrame,
     target_feature_name: str,
     y_axis: str = "# Total",
-    split: str = None,
-    class_order: List[str] = None,
+    split: str | None = None,
+    class_order: List[str | int] | None = None,
 ) -> None:
     """Create charts with the distribution of the target feature.
 
@@ -28,33 +28,27 @@ def population_flow(
         return
 
     if split is not None:
-        df_train = df.query(f'{split} == "Train"')
-        df_val = df.query(f'{split} == "Validation"')
-        df_test = df.query(f'{split} == "Test"')
         dfs = [
-            ("Total", df, 0, 0),
-            ("Train", df_train, 0, 1),
-            ("Validation", df_val, 1, 0),
-            ("Test", df_test, 1, 1),
+            ("Total", df),
+            ("Train", df.query(f'{split} == "Train"')),
+            ("Validation", df.query(f'{split} == "Validation"')),
+            ("Test", df.query(f'{split} == "Test"')),
         ]
     else:
         dfs = [
-            ("Total", df, 0, 0),
+            ("Total", df),
         ]
 
     len_dfs = len(dfs)
 
-    if len_dfs > 1:
-        fig, ax = plt.subplots(2, 2, figsize=(10, 10))
-    else:
-        fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    _, ax = plt.subplots(len_dfs // 2, 2, figsize=(10, 10))
 
     if y_axis == "# Total":
         y_cap = df[target_feature_name].value_counts().max() * 1.07
     else:
         y_cap = 1
 
-    for dataset, dfi, i, j in dfs:
+    for (dataset, dfi), axi in zip(dfs, ax.flatten()):
         flag_frequencies = pd.concat(
             [
                 dfi[target_feature_name].value_counts(dropna=False),
@@ -70,17 +64,14 @@ def population_flow(
         index = flag_frequencies[y_axis].index
         values = [round(val, 2) for val in flag_frequencies[y_axis].values]
 
-        if len_dfs > 1:
-            bars = ax[i, j].bar(index, values)
-            ax[i, j].tick_params(axis="x", labelrotation=35)
-            ax[i, j].bar_label(bars)
-            ax[i, j].set_ylim([0, y_cap])
-            ax[i, j].set_title(dataset)
-        else:
-            bars = ax.bar(index, values)
-            ax.tick_params(axis="x", labelrotation=35)
-            ax.bar_label(bars)
-            ax.set_ylim([0, y_cap])
-            ax.set_title(dataset)
+        bars = axi.bar(index, values)
+        axi.tick_params(axis="x", labelrotation=35)
+        axi.bar_label(bars)
+        axi.set_ylim([0, y_cap])
+        axi.set_title(dataset)
+
+        if class_order is not None:
+            axi.set_xticks(range(len(class_order)))
+            axi.set_xticklabels(class_order)
 
     plt.tight_layout()

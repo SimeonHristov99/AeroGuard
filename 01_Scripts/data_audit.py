@@ -6,6 +6,8 @@ import pandas as pd
 from IPython.display import display
 from tqdm import tqdm
 
+import warnings
+
 
 class DataAudit:
     """Perform univariate analysis on a set of features."""
@@ -37,7 +39,6 @@ class DataAudit:
         selection_set: List[str] = None,
     ) -> None:
         """Create the table with statisitcs for each variable.
-
 
         Args:
             df (pd.DataFrame): A dataframe with the features for which the analysis will be done.
@@ -193,7 +194,7 @@ class DataAudit:
 
         if df_result is None:
             warnings.warn(f"Feature {feature} not present")
-            return
+            return None
 
         if not display_only:
             return df_result.copy()
