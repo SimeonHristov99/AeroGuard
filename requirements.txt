@@ -133,6 +133,7 @@ kaleido==0.2.1
 kiwisolver==1.4.4
 kmodes==0.12.2
 lazy_loader==0.2
+lightgbm==3.3.5
 lime==0.2.0.1
 linkify-it-py==2.0.2
 llvmlite==0.39.1
